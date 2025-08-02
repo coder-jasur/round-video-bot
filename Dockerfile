@@ -6,8 +6,7 @@ WORKDIR /app
 COPY pyproject.toml ./
 COPY src ./src
 
-RUN uv sync --locked --no-install-project
-RUN uv sync --locked
+RUN uv pip install --system
 
 COPY . .
 
