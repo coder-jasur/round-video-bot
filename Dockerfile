@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . /app
 
-RUN apt update && apt install -y ffmpeg
+RUN apt update && apt install -y ffmpeg && apt clean && rm -rf /var/lib/apt/lists/*
 
 RUN uv pip compile pyproject.toml > requirement.txt
 RUN uv pip install -r requirement.txt --system
