@@ -5,7 +5,7 @@ import os
 import asyncpg
 from aiogram import Dispatcher, Bot
 
-from logs.file.logger_conf import setup_logging
+from logs.logger_config import setup_logging
 from src.app.common.bot_commands import bot_commands
 from src.app.common.get_db_url import construct_postgresql_url
 from src.app.core.config import Settings
