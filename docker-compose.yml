@@ -1,0 +1,36 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    env_file:
+      - ./.env
+    volumes:
+      - pgdata:var/lib/postgresql/data
+    restart: on-failure
+    ports:
+      - "5432:5432"
+
+
+  bot:
+    command: sh -c "make migrate && pyhton -m bot"
+    env_file:
+      - ./.env
+    image: "${BOT_IMAGE_NAME:-tg_bot-image}"
+    container_name: "${BOT_CONTAINER_NAME:-tg_bot-container}"
+    stop_signal: SIGINT
+    build:
+      context: .
+    working_dir: "/app"
+    restart: always
+    depends_on:
+      - postgres
+    networks:
+    - tg_bot
+
+networks:
+  tg_bot:
+    driver: bridge
+
+volumes:
+  pgdata:
