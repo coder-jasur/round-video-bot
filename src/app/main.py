@@ -5,14 +5,13 @@ import os
 import asyncpg
 from aiogram import Dispatcher, Bot
 
-
-from common.bot_commands import bot_commands_c
-from common.get_db_url import construct_postgresql_url
-from core.config import Settings
-from database.tables import create_database_tables
-from handlers import registrar_routers
 from logs.logger_conf import setup_logging
-from middleware import register_middlewares
+from src.app.common.bot_commands import bot_commands
+from src.app.common.get_db_url import construct_postgresql_url
+from src.app.core.config import Settings
+from src.app.database.tables import create_database_tables
+from src.app.handlers import registrar_routers
+from src.app.middleware import register_middlewares
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level="INFO")
@@ -33,7 +32,7 @@ async def main():
 
 
     bot = Bot(token=settings.bot_token)
-    await bot_commands_c(bot, settings)
+    await bot_commands(bot, settings)
 
     dp = Dispatcher()
     register_middlewares(dp, settings, pool)
