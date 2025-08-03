@@ -1,10 +1,11 @@
 FROM ghcr.io/astral-sh/uv:python3.13-bookworm-slim
+FROM ubuntu:latest
+
 
 WORKDIR /app
 
-RUN apt-get -y update
-RUN apt-get -y upgrade
-RUN apt-get install -y ffmpeg
+
+RUN apt-get update && apt-get install -y ffmpeg
 
 COPY pyproject.toml /app/
 COPY . /app/
