@@ -1,9 +1,6 @@
 FROM ghcr.io/astral-sh/uv:python3.13-bookworm-slim
-FROM ubuntu:latest
-
 
 WORKDIR /app
-
 
 RUN apt-get update && apt-get install -y ffmpeg
 
@@ -17,3 +14,4 @@ RUN uv pip compile /app/pyproject.toml > /app/requirement.txt
 RUN uv pip install -r /app/requirement.txt --system
 
 CMD ["python", "-m", "src.app.main"]
+
