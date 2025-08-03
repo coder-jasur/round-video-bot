@@ -4,6 +4,7 @@ WORKDIR /app
 
 COPY pyproject.toml /app/
 
+RUN cat pyproject.toml
 RUN uv pip compile pyproject.toml > requirement.txt
 
 COPY . /app
