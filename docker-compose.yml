@@ -13,7 +13,7 @@ services:
 
 
   bot:
-    command: sh -c "make migrate && pyhton -m bot"
+    command: sh -c "make migrate && python -m bot"
     env_file:
       - ./.env
     image: "${BOT_IMAGE_NAME:-tg_bot-image}"
