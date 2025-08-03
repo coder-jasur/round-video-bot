@@ -16,7 +16,6 @@ from src.app.middleware import register_middlewares
 logger = logging.getLogger(__name__)
 
 
-
 async def main():
     settings = Settings()
 
@@ -29,15 +28,14 @@ async def main():
     async with pool.acquire() as conn:
         await create_database_tables(conn)
 
+    bot = Bot(token=settings.bot_token)
+    await bot_commands(bot, settings)
+
     dp = Dispatcher()
     register_middlewares(dp, settings, pool)
     registrar_routers(dp, settings.admins_ids)
 
 
-
-    bot = Bot(token=settings.bot_token)
-
-    await bot_commands(bot, settings)
 
     await dp.start_polling(bot)
 
