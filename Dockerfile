@@ -4,8 +4,7 @@ WORKDIR /app
 
 COPY pyproject.toml /app/
 
-RUN cat pyproject.toml
-RUN uv pip compile pyproject.toml > requirement.txt
+RUN poetry export --without-hashes --format=requirements.txt -o requirement.txt
 
 COPY . /app
 
