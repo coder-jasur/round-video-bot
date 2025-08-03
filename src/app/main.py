@@ -6,7 +6,7 @@ import asyncpg
 from aiogram import Dispatcher, Bot
 
 
-from src.app.common.bot_commands import bot_commands
+from src.app.common.bot_commands import bot_commands_c
 from src.app.common.get_db_url import construct_postgresql_url
 from src.app.core.config import Settings
 from src.app.database.tables import create_database_tables
@@ -32,7 +32,7 @@ async def main():
 
 
     bot = Bot(token=settings.bot_token)
-    await bot_commands(bot, settings)
+    await bot_commands_c(bot, settings)
 
     dp = Dispatcher()
     register_middlewares(dp, settings, pool)

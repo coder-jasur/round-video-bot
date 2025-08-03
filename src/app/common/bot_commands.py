@@ -1,10 +1,10 @@
 from aiogram import Bot
-from aiogram.types import BotCommand, BotCommandScope, BotCommandScopeChat, BotCommandScopeChatAdministrators
+from aiogram.types import BotCommand, BotCommandScopeChat
 
 from src.app.core.config import Settings
 
 
-async def bot_commands(bot: Bot, settings: Settings):
+async def bot_commands_c(bot: Bot, settings: Settings):
     await bot.set_my_commands(
         commands=[
             BotCommand(command="/start", description="botni ishga tushirish"),
