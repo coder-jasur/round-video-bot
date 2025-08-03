@@ -11,6 +11,7 @@ from common.get_db_url import construct_postgresql_url
 from core.config import Settings
 from database.tables import create_database_tables
 from handlers import registrar_routers
+from logs.logger_conf import setup_logging
 from middleware import register_middlewares
 
 logger = logging.getLogger(__name__)
@@ -43,6 +44,7 @@ async def main():
 
 if __name__ == "__main__":
     try:
+        setup_logging("logs/logger.yml")
         os.makedirs("videos", exist_ok=True)
         asyncio.run(main())
     except Exception as e:
