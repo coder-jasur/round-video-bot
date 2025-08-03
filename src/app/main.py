@@ -6,12 +6,12 @@ import asyncpg
 from aiogram import Dispatcher, Bot
 
 
-from src.app.common.bot_commands import bot_commands_c
-from src.app.common.get_db_url import construct_postgresql_url
-from src.app.core.config import Settings
-from src.app.database.tables import create_database_tables
-from src.app.handlers import registrar_routers
-from src.app.middleware import register_middlewares
+from common.bot_commands import bot_commands_c
+from common.get_db_url import construct_postgresql_url
+from core.config import Settings
+from database.tables import create_database_tables
+from handlers import registrar_routers
+from middleware import register_middlewares
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level="INFO")
