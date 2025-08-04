@@ -11,9 +11,11 @@ from src.app.handlers.user.help import help_router
 
 def registrar_routers(dp: Dispatcher, admins: list):
     registrar_all_routers = Router()
+
     registrar_all_routers.include_router(check_sub_channel_router)
     registrar_all_routers.message.filter(CheckUserStatus())
     registrar_all_routers.callback_query.filter(CheckUserStatusCallback())
+
 
     registrar_admin_routers(registrar_all_routers, admins)
 

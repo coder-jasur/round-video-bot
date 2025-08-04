@@ -38,7 +38,7 @@ async def main():
     register_middlewares(dp, settings, pool)
     registrar_routers(dp, settings.admins_ids)
 
-    await dp.start_polling(bot)
+    await dp.start_polling(bot, **{"pool": pool})
 
 
 if __name__ == "__main__":

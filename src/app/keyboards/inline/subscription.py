@@ -5,11 +5,11 @@ from asyncpg import Connection
 from src.app.database.queries.bots import BotActions
 
 
-async def else_create_channels_keyboard(channels: list[dict]) -> InlineKeyboardMarkup:
+async def else_create_channels_keyboard(channels) -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
     for ch in channels:
-        if ch[-2] == "yes":
-            builder.row(InlineKeyboardButton(text=ch[2], url=ch[3]))
+        if ch[3] == "majburiy obuna":
+            builder.row(InlineKeyboardButton(text=ch[1], url=f"https://t.me/{ch[2]}"))
 
     chek_sub_button = InlineKeyboardButton(text="✅", callback_data="check_subs")
 
@@ -20,15 +20,17 @@ async def else_create_channels_keyboard(channels: list[dict]) -> InlineKeyboardM
 async def create_channels_keyboard(channels, conn: Connection) -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
     bot_actions = BotActions(conn)
+    if channels:
 
-    for ch in channels:
-        if ch[-2] == "yes":
-            builder.row(InlineKeyboardButton(text=ch[2], url=ch[3]))
+        for ch in channels:
+            if ch[3] == "majburiy obuna":
+                builder.row(InlineKeyboardButton(text=ch[1], url=f"https://t.me/{ch[2]}"))
 
     bots = await bot_actions.get_all_bots()
-    for bot in bots:
-        if bot[-2] == "yes":
-            builder.row(InlineKeyboardButton(text=f"{bot[1]}", url=f"https://t.me/{bot[2]}"))
+    if bots:
+        for bot in bots:
+            if bot[-2] == "majburiy obuna":
+                builder.row(InlineKeyboardButton(text=f"{bot[0]}", url=f"https://t.me/{bot[1][1:]}"))
 
     chek_sub_button = InlineKeyboardButton(text="✅", callback_data="check_subs")
 
