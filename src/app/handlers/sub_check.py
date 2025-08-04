@@ -27,7 +27,7 @@ async def handle_user_message(message: Message, bot: Bot, conn: Connection):
             "Bot butunlay bepul. Undan foydalanish uchun ushbu kanallarga obuna bo'ling", reply_markup=keyboard
         )
     else:
-        await message.answer("✅ Siz barcha kanallarga obuna bo'ldingiz. Rahmat!")
+        await message.edit_text("✅ Siz barcha kanallarga obuna bo'ldingiz. Rahmat!")
 
 
 @check_sub_channel_router.callback_query(F.data == "check_subs")
