@@ -10,6 +10,7 @@ from src.app.keyboards.inline.subscription import else_create_channels_keyboard,
 from src.app.services.subscription import get_unsubscribed_required_channels
 
 check_sub_channel_router = Router()
+check_sub_channel_router.message.filter(CheckSubChannel())
 
 @check_sub_channel_router.callback_query(F.data == "check_subs")
 async def check_subs_callback(call: CallbackQuery, bot: Bot, conn: Connection):
@@ -25,8 +26,6 @@ async def check_subs_callback(call: CallbackQuery, bot: Bot, conn: Connection):
         await call.message.edit_text(
             "Bot butunlay bepul. Undan foydalanish uchun ushbu kanallarga obuna bo'ling", reply_markup=keyboard
         )
-
-check_sub_channel_router.message.filter(CheckSubChannel())
 
 
 @check_sub_channel_router.message(F.text)

@@ -15,8 +15,9 @@ class CheckSubChannel(Filter):
         channel_actions = ChannelActions(conn)
         channels = await channel_actions.get_all_channels()
         for channel in channels:
-            user_status = await bot.get_chat_member(channel[0], message.from_user.id)
-            if user_status.status in ["member", "administrator", "creator"]:
-                return False
+            if channel[3] == "majburiy obuna":
+                user_status = await bot.get_chat_member(channel[0], message.from_user.id)
+                if user_status.status in ["member", "administrator", "creator"]:
+                    return False
             else:
                 return True
