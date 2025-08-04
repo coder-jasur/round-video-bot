@@ -41,7 +41,7 @@ async def check_subs_callback(call: CallbackQuery, bot: Bot, conn: Connection):
     else:
         keyboard = await else_create_channels_keyboard(unsubscribed)
         await call.message.edit_text(
-            "bBot butunlay bepul. Undan foydalanish uchun ushbu kanallarga obuna bo'ling", reply_markup=keyboard
+            "Bot butunlay bepul. Undan foydalanish uchun ushbu kanallarga obuna bo'ling", reply_markup=keyboard
         )
 
 
