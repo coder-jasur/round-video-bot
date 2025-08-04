@@ -14,18 +14,22 @@ check_sub_channel_router.message.filter(CheckSubChannel())
 
 @check_sub_channel_router.callback_query(F.data == "check_subs")
 async def check_subs_callback(call: CallbackQuery, bot: Bot, conn: Connection):
-    print(1)
     unsubscribed = await get_unsubscribed_required_channels(
         bot, call.from_user.id, conn
     )
-    print(unsubscribed)
     if not unsubscribed:
         await call.message.edit_text("✅ Siz barcha kanallarga obuna bo'ldingiz. Rahmat!")
     else:
-        keyboard = await else_create_channels_keyboard(unsubscribed)
-        await call.message.edit_text(
-            "Bot butunlay bepul. Undan foydalanish uchun ushbu kanallarga obuna bo'ling", reply_markup=keyboard
-        )
+        try:
+            keyboard = await else_create_channels_keyboard(unsubscribed)
+            await call.message.edit_text(
+                "😄Bot butunlay bepul. Undan foydalanish uchun ushbu kanallarga obuna bo'ling", reply_markup=keyboard
+            )
+        except Exception:
+            await call.message.edit_text(
+                "😄 Bot butunlay bepul. Undan foydalanish uchun ushbu kanallarga obuna bo'ling", reply_markup=keyboard
+            )
+
 
 
 @check_sub_channel_router.message(F.text)
@@ -37,10 +41,10 @@ async def handle_user_message(message: Message, bot: Bot, conn: Connection):
     if unsubscribed:
         keyboard = await create_channels_keyboard(unsubscribed, conn)
         await message.answer(
-            "Bot butunlay bepul. Undan foydalanish uchun ushbu kanallarga obuna bo'ling", reply_markup=keyboard
+            "😄 Bot butunlay bepul. Undan foydalanish uchun ushbu kanallarga obuna bo'ling", reply_markup=keyboard
         )
     else:
-        await message.edit_text("✅ Siz barcha kanallarga obuna bo'ldingiz. Rahmat!")
+        await message.answer("✅ Siz barcha kanallarga obuna bo'ldingiz. Rahmat!")
 
 
 
