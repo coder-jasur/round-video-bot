@@ -64,4 +64,4 @@ async def on_user_subscribed_to_channel(chat_member: ChatMemberUpdated, bot: Bot
             if channel_message
             else "✅ Siz barcha kanallarga obuna bo‘ldingiz. Endi botdan foydalanishingiz mumkin."
         )
-        await bot.send_message(chat_id=user_id, text=text)
+        await bot.edit_message_text(chat_id=user_id, text=text)
