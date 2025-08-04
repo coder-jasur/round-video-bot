@@ -9,10 +9,24 @@ from src.app.filters.check_sub_channel import CheckSubChannel
 from src.app.keyboards.inline.subscription import else_create_channels_keyboard, create_channels_keyboard
 from src.app.services.subscription import get_unsubscribed_required_channels
 
-
 check_sub_channel_router = Router()
+
+@check_sub_channel_router.callback_query(F.data == "check_subs")
+async def check_subs_callback(call: CallbackQuery, bot: Bot, conn: Connection):
+    print(1)
+    unsubscribed = await get_unsubscribed_required_channels(
+        bot, call.from_user.id, conn
+    )
+    print(unsubscribed)
+    if not unsubscribed:
+        await call.message.edit_text("✅ Siz barcha kanallarga obuna bo'ldingiz. Rahmat!")
+    else:
+        keyboard = await else_create_channels_keyboard(unsubscribed)
+        await call.message.edit_text(
+            "Bot butunlay bepul. Undan foydalanish uchun ushbu kanallarga obuna bo'ling", reply_markup=keyboard
+        )
+
 check_sub_channel_router.message.filter(CheckSubChannel())
-check_sub_channel_router.callback_query.filter(CheckSubChannel())
 
 
 @check_sub_channel_router.message(F.text)
@@ -30,19 +44,7 @@ async def handle_user_message(message: Message, bot: Bot, conn: Connection):
         await message.edit_text("✅ Siz barcha kanallarga obuna bo'ldingiz. Rahmat!")
 
 
-@check_sub_channel_router.callback_query(F.data == "check_subs")
-async def check_subs_callback(call: CallbackQuery, bot: Bot, conn: Connection):
-    unsubscribed = await get_unsubscribed_required_channels(
-        bot, call.from_user.id, conn
-    )
-    print(unsubscribed)
-    if not unsubscribed:
-        await call.message.edit_text("✅ Siz barcha kanallarga obuna bo'ldingiz. Rahmat!")
-    else:
-        keyboard = await else_create_channels_keyboard(unsubscribed)
-        await call.message.edit_text(
-            "Bot butunlay bepul. Undan foydalanish uchun ushbu kanallarga obuna bo'ling", reply_markup=keyboard
-        )
+
 
 
 @check_sub_channel_router.chat_member(ChatMemberUpdatedFilter(IS_NOT_MEMBER >> IS_MEMBER))
@@ -59,9 +61,5 @@ async def on_user_subscribed_to_channel(chat_member: ChatMemberUpdated, bot: Bot
             bot, chat_member.from_user.id, conn
         )
     if not unsubscribed:
-        text = (
-            str(channel_message)
-            if channel_message
-            else "✅ Siz barcha kanallarga obuna bo‘ldingiz. Endi botdan foydalanishingiz mumkin."
-        )
-        await bot.edit_message_text(chat_id=user_id, text=text)
+        if channel_message:
+            await bot.send_message(text=channel_message)

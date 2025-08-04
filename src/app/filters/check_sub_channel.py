@@ -7,13 +7,16 @@ from aiogram.types import (
 )
 from asyncpg import Connection
 
-from src.app.services.subscription import get_unsubscribed_required_channels
+from src.app.database.queries.channels import ChannelActions
 
 
 class CheckSubChannel(Filter):
     async def __call__(self, message: Message, bot: Bot, conn: Connection):
-        unsubscribed_channels = await get_unsubscribed_required_channels(
-            bot, message.from_user.id, conn
-        )
-
-        return bool(unsubscribed_channels)
+        channel_actions = ChannelActions(conn)
+        channels = await channel_actions.get_all_channels()
+        for channel in channels:
+            user_status = await bot.get_chat_member(channel[0], message.from_user.id)
+            if user_status.status in ["member", "administrator", "creator"]:
+                return False
+            else:
+                return True
