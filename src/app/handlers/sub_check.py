@@ -11,6 +11,19 @@ from src.app.services.subscription import get_unsubscribed_required_channels
 
 check_sub_channel_router = Router()
 check_sub_channel_router.message.filter(CheckSubChannel())
+@check_sub_channel_router.message(F.video, CheckSubChannel())
+async def handle_video(message: Message, conn: Connection, bot: Bot):
+    unsubscribed = await get_unsubscribed_required_channels(
+        bot, message.from_user.id, conn
+    )
+
+    if unsubscribed:
+        keyboard = await create_channels_keyboard(unsubscribed, conn)
+        await message.answer(
+            "😄 Bot butunlay bepul. Undan foydalanish uchun ushbu kanallarga obuna bo'ling", reply_markup=keyboard
+        )
+    else:
+        await message.answer("✅ Siz barcha kanallarga obuna bo'ldingiz. Rahmat!")
 
 @check_sub_channel_router.callback_query(F.data == "check_subs")
 async def check_subs_callback(call: CallbackQuery, bot: Bot, conn: Connection):
