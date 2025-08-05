@@ -79,20 +79,22 @@ async def answer_video_note(message: Message, bot: Bot):
         file_name = get_video_file_name()
 
         saved_path = await upload_video_to_system(file_name, file_data)
-        video = await asyncio.to_thread(crop_center_square_video, saved_path, "./videos")
         await bot.send_chat_action(message.chat.id, 'record_video_note')
+        video = await asyncio.to_thread(crop_center_square_video, saved_path, "./videos")
         await message.answer_video_note(FSInputFile(video))
         await load_msg.delete()
-        await asyncio.to_thread(delete_video_for_system, saved_path, video)
     except Exception:
         await load_msg.delete()
         await message.reply(
-            "❗ Vidoni qayta ishlashda xatolik yuz berdi hajmi\n"
-            "💾 20MB dan pastroq video yuboring"
+            "❗ Vidoni qayta ishlashda xatolik yuz berdi\n"
+            "💾 hajmi 20MB dan pastroq video yuboring"
         )
+    finally:
+        await asyncio.to_thread(delete_video_for_system, saved_path, video)
 
 
-def crop_center_square_video(input_path: str, output_dir: str = "./videos", size: int = 360) -> str:
+
+def crop_center_square_video(input_path: str, output_dir: str = "./videos", size: int = 570) -> str:
     output_filename = f"{uuid.uuid4().hex}_note_{size}x{size}.mp4"
     output_path = os.path.join(output_dir, output_filename)
 
@@ -104,8 +106,8 @@ def crop_center_square_video(input_path: str, output_dir: str = "./videos", size
         "-t", "60",
         "-vf", filter_str,
         "-c:v", "libx264",
-        "-preset", "fast",
-        "-crf", "18",
+        "-preset", "superfast",
+        "-crf", "23",
         "-y",
         output_path
     ]
