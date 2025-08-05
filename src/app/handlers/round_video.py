@@ -106,8 +106,8 @@ def crop_center_square_video(input_path: str, output_dir: str = "./videos", size
         "-t", "60",
         "-vf", filter_str,
         "-c:v", "libx264",
-        "-preset", "superfast",
-        "-crf", "23",
+        "-preset", "veryfast",
+        "-crf", "22",
         "-y",
         output_path
     ]
