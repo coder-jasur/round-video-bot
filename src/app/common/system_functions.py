@@ -14,12 +14,13 @@ from aiogram.types import Message
 logger = logging.getLogger(__name__)
 
 
-def delete_video_for_system(path_1: str, path_2: str):
+def delete_video_for_system(path_1: str, path_2: str, path_3: str):
     if not path_1:
         return
     try:
         os.remove(path_1)
         os.remove(path_2)
+        os.remove(path_3)
     except Exception as e:
         logger.exception("Can not remove video %s", e)
 
