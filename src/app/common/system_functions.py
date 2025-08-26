@@ -15,12 +15,11 @@ logger = logging.getLogger(__name__)
 
 
 def delete_video_for_system(path_1: str, path_2: str, path_3: str):
-    if not path_1:
-        return
     try:
-        os.remove(path_1)
-        os.remove(path_2)
-        os.remove(path_3)
+        for p in [path_1, path_2, path_3]:
+            if p:
+                os.remove(p)
+
     except Exception as e:
         logger.exception("Can not remove video %s", e)
 
