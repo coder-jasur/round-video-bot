@@ -14,9 +14,9 @@ from aiogram.types import Message
 logger = logging.getLogger(__name__)
 
 
-def delete_video_for_system(path_1: str, path_2: str, path_3: str):
+def delete_video_for_system(path_1: str, path_2: str):
     try:
-        for p in [path_1, path_2, path_3]:
+        for p in [path_1, path_2]:
             if p:
                 os.remove(p)
 
